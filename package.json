@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "eslint": "^8.33.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.1.0",
+    "semver": "^7.3.8",
+    "typescript": "^4.9.5"
+  },
+  "name": "openai-translate",
+  "description": "Translate use chatgpt api.",
+  "version": "1.0.2",
+  "main": "./out/src/index.js",
+  "scripts": {
+    "build": "tsc --project ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shinganEuler/openai-translate.git"
+  },
+  "author": "shinganEuler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shinganEuler/openai-translate/issues"
+  },
+  "homepage": "https://github.com/shinganEuler/openai-translate#readme",
+  "devDependencies": {
+    "@types/node": "^18.15.3"
+  }
+}
