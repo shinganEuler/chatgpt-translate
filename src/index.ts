@@ -45,8 +45,7 @@ interface OpenAIResponseUsage {
     total_tokens: number;
 }
 
-
-async function translateWithOpenAI(
+export async function translateWithOpenAI(
     OPENAI_API_KEY: string,
     message: string,
     openai_url: string,
@@ -117,7 +116,7 @@ async function translateWithOpenAI(
     }
 }
 
-async function translateWithAzureOpenAI(
+export async function translateWithAzureOpenAI(
     AZURE_KEY: string,
     message: string,
     azure_openai_url: string,
@@ -200,7 +199,3 @@ async function translateWithAzureOpenAI(
     }
 }
 
-module.exports = {
-    translateWithOpenAI,
-    translateWithAzureOpenAI
-};
