@@ -45,7 +45,7 @@ interface OpenAIResponseUsage {
     total_tokens: number;
 }
 
-export default class OpenAITranslate {
+export class OpenAITranslate {
     public OpenAITranslate() {
 
     }
