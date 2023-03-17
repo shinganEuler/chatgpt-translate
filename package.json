@@ -13,7 +13,7 @@
   },
   "name": "openai-translate",
   "description": "Translate use chatgpt api.",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "./out/src/index.js",
   "scripts": {
     "build": "tsc --project ."
