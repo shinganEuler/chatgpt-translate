@@ -130,6 +130,7 @@ export async function translateWithAzureOpenAI(
 
     let azure_messages = [];
 
+    // old style
     for (var i = 0; i < messages.length; ++i) {
         let role = messages[i].role;
         let content = messages[i].content;
