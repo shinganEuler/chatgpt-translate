@@ -55,8 +55,7 @@ export async function translateWithOpenAI(
     const data = {
         model: model,
         messages: [
-            { role: 'user', content: "translate all my input to " + target_langualge },
-            { role: 'assistant', content: "ok, I will translate all your input to " + target_langualge },
+            { role: 'system', content: "translate all my input to " + target_langualge },
             { role: 'user', content: message }
         ],
         temperature: 0,
@@ -122,28 +121,12 @@ export async function translateWithAzureOpenAI(
     azure_openai_url: string,
     target_langualge: string
 ): Promise<string> {
-    const messages = [
-        { role: 'user', content: "translate all my input to " + target_langualge },
-        { role: 'assistant', content: "ok, I will translate all your input to " + target_langualge },
-        { role: 'user', content: message }
-    ];
-
-    let azure_messages = [];
-
-    // old style
-    for (var i = 0; i < messages.length; ++i) {
-        let role = messages[i].role;
-        let content = messages[i].content;
-        azure_messages.push(`<|im_start|>${role}\n${content}\n<|im_end|>`);
-    }
-
-    let prompt = azure_messages.join("\n") + "<|im_start|>assistant";
-
-    let data = {
-        "prompt": prompt,
-        "max_tokens": 2048,
-        "temperature": 0,
-        "stop": ["<|im_end|>"]
+    const data = {
+        messages: [
+            { role: 'system', content: "translate all my input to " + target_langualge },
+            { role: 'user', content: message }
+        ],
+        temperature: 0,
     };
 
     try {

@@ -17,8 +17,7 @@ function translateWithOpenAI(OPENAI_API_KEY, message, openai_url, model, target_
         const data = {
             model: model,
             messages: [
-                { role: 'user', content: "translate all my input to " + target_langualge },
-                { role: 'assistant', content: "ok, I will translate all your input to " + target_langualge },
+                { role: 'system', content: "translate all my input to " + target_langualge },
                 { role: 'user', content: message }
             ],
             temperature: 0,
@@ -76,23 +75,12 @@ function translateWithOpenAI(OPENAI_API_KEY, message, openai_url, model, target_
 exports.translateWithOpenAI = translateWithOpenAI;
 function translateWithAzureOpenAI(AZURE_KEY, message, azure_openai_url, target_langualge) {
     return __awaiter(this, void 0, void 0, function* () {
-        const messages = [
-            { role: 'user', content: "translate all my input to " + target_langualge },
-            { role: 'assistant', content: "ok, I will translate all your input to " + target_langualge },
-            { role: 'user', content: message }
-        ];
-        let azure_messages = [];
-        for (var i = 0; i < messages.length; ++i) {
-            let role = messages[i].role;
-            let content = messages[i].content;
-            azure_messages.push(`<|im_start|>${role}\n${content}\n<|im_end|>`);
-        }
-        let prompt = azure_messages.join("\n") + "<|im_start|>assistant";
-        let data = {
-            "prompt": prompt,
-            "max_tokens": 2048,
-            "temperature": 0,
-            "stop": ["<|im_end|>"]
+        const data = {
+            messages: [
+                { role: 'system', content: "translate all my input to " + target_langualge },
+                { role: 'user', content: message }
+            ],
+            temperature: 0,
         };
         try {
             const parsedUrl = url.parse(azure_openai_url, true);
