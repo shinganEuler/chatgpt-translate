@@ -59,11 +59,11 @@ function translateWithOpenAI(OPENAI_API_KEY, message, openai_url, model, target_
                 req.end();
             });
             if (response.choices.length === 0) {
-                throw new Error('openai No response choices found');
+                throw new Error('Openai no response choices found');
             }
             const content = response.choices[0].message.content;
             if (content.trim() === '') {
-                throw new Error('openai Response content is empty');
+                throw new Error('Openai response content is empty');
             }
             return content;
         }
@@ -108,22 +108,22 @@ function translateWithAzureOpenAI(AZURE_KEY, message, azure_openai_url, target_l
                             resolve(response);
                         }
                         catch (error) {
-                            reject(new Error(`Failed to parse azure openai response: ${error.message}`));
+                            reject(new Error(`Failed to parse Azure OpenAI response: ${error.message}`));
                         }
                     });
                 });
                 req.on('error', (error) => {
-                    reject(new Error(`Request azure openai failed: ${error.message}`));
+                    reject(new Error(`Request Azure OpenAI failed: ${error.message}`));
                 });
                 req.write(JSON.stringify(data));
                 req.end();
             });
             if (response.choices.length === 0) {
-                throw new Error('azure openai No response choices found');
+                throw new Error('Azure OpenAI no response choices found');
             }
-            const content = response.choices[0].text;
+            const content = response.choices[0].message.content;
             if (content.trim() === '') {
-                throw new Error('azure openai Response content is empty');
+                throw new Error('Azure OpenAI response content is empty');
             }
             return content;
         }

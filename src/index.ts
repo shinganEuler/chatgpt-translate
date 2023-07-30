@@ -1,24 +1,6 @@
 import * as url from 'url';
 import * as https from 'https';
 
-interface AzureOpenAIResponse {
-    id: string;
-    object: string;
-    created: number;
-    model: string;
-    choices: {
-        text: string;
-        index: number;
-        finish_reason: string;
-        logprobs: null | any;
-    }[];
-    usage: {
-        completion_tokens: number;
-        prompt_tokens: number;
-        total_tokens: number;
-    };
-}
-
 interface OpenAIResponse {
     id: string;
     object: string;
@@ -100,13 +82,13 @@ export async function translateWithOpenAI(
         });
 
         if (response.choices.length === 0) {
-            throw new Error('openai No response choices found');
+            throw new Error('Openai no response choices found');
         }
 
         const content = response.choices[0].message.content;
 
         if (content.trim() === '') {
-            throw new Error('openai Response content is empty');
+            throw new Error('Openai response content is empty');
         }
 
         return content;
@@ -144,7 +126,7 @@ export async function translateWithAzureOpenAI(
             }
         };
 
-        const response: AzureOpenAIResponse = await new Promise((resolve, reject) => {
+        const response: OpenAIResponse = await new Promise((resolve, reject) => {
             const req = https.request(options, (res: any) => {
                 let body = '';
                 res.setEncoding('utf8');
@@ -153,28 +135,28 @@ export async function translateWithAzureOpenAI(
                 });
                 res.on('end', () => {
                     try {
-                        const response = JSON.parse(body) as AzureOpenAIResponse;
+                        const response = JSON.parse(body) as OpenAIResponse;
                         resolve(response);
                     } catch (error: any) {
-                        reject(new Error(`Failed to parse azure openai response: ${error.message}`));
+                        reject(new Error(`Failed to parse Azure OpenAI response: ${error.message}`));
                     }
                 });
             });
             req.on('error', (error: any) => {
-                reject(new Error(`Request azure openai failed: ${error.message}`));
+                reject(new Error(`Request Azure OpenAI failed: ${error.message}`));
             });
             req.write(JSON.stringify(data));
             req.end();
         });
 
         if (response.choices.length === 0) {
-            throw new Error('azure openai No response choices found');
+            throw new Error('Azure OpenAI no response choices found');
         }
 
-        const content = response.choices[0].text;
+        const content = response.choices[0].message.content;
 
         if (content.trim() === '') {
-            throw new Error('azure openai Response content is empty');
+            throw new Error('Azure OpenAI response content is empty');
         }
 
         return content;
